@@ -1,0 +1,34 @@
+# Path to your oh-my-zsh installation.
+export ZSH=/Users/johannes/.oh-my-zsh
+
+ZSH_THEME="clean"
+
+# CASE_SENSITIVE="true"
+# DISABLE_AUTO_UPDATE="true"
+# export UPDATE_ZSH_DAYS=13
+# DISABLE_LS_COLORS="true"
+# DISABLE_AUTO_TITLE="true"
+# ENABLE_CORRECTION="true"
+# COMPLETION_WAITING_DOTS="true"
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+plugins=(git osx)
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export MANPATH="/usr/local/man:$MANPATH"
+
+source $ZSH/oh-my-zsh.sh
+
+export LANG=en_US.UTF-8
+
+alias vim=nvim
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
+
+source $(brew --prefix nvm)/nvm.sh
+export NVM_DIR=~/.nvm
+nvm use default > /dev/null
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

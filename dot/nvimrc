@@ -1,0 +1,72 @@
+set rtp+=~/.nvim/bundle/Vundle.vim
+call vundle#begin()
+  Plugin 'gmarik/Vundle.vim'
+  Plugin 'scrooloose/nerdtree'
+  Plugin 'altercation/vim-colors-solarized'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'godlygeek/tabular'
+  Plugin 'tpope/vim-surround'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'scrooloose/syntastic'
+  Plugin 'scrooloose/nerdcommenter'
+  Plugin 'kchmck/vim-coffee-script'
+  Plugin 'kien/ctrlp.vim'
+  Plugin 'Raimondi/delimitMate'
+  Plugin 'editorconfig/editorconfig-vim' 
+call vundle#end()
+
+" Plugin configuration
+" ctrlp.vim
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+filetype plugin indent on
+syntax on
+set nowrap
+
+set ts=2 sts=2 sw=2 expandtab
+
+set backupdir=~/.nvim/backup,~/.nvim/tmp
+set directory=~/.nvim/backup,~/.nvim/tmp
+
+set backspace=indent,eol,start
+
+" Use solarized theme
+set background=dark
+colorscheme solarized
+
+" show row numbers
+set number
+
+" Leader key timeout
+set timeoutlen=400
+set ttimeoutlen=400
+
+" Key mappings
+let mapleader = " "
+nnoremap <Space> <Nop>
+nnoremap <Leader>h :set hlsearch!<CR>
+nnoremap <Leader>nt :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+nnoremap <silent> <c-k> :wincmd k<CR>
+nnoremap <silent> <c-j> :wincmd j<CR>
+nnoremap <silent> <c-h> :wincmd h<CR>
+nnoremap <silent> <c-l> :wincmd l<CR>
+nmap <leader>v :tabedit $MYVIMRC<CR>
+  
+" Alisas
+command! W execute ':silent w !sudo tee % > /dev/null' | edit!
+command! Q q
+
+" Enable mouse scrolling, clicks etc
+set mouse=a
+
+" Autocmds
+if has("autocmd")
+  " Reload vim config on save
+  autocmd bufwritepost .nvimrc source $MYVIMRC
+endif
