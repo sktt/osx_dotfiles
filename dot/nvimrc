@@ -16,6 +16,7 @@ call vundle#begin()
   Plugin 'editorconfig/editorconfig-vim' 
   Plugin 'mintplant/vim-literate-coffeescript'
   Plugin 'bling/vim-airline'
+  Plugin 'junegunn/goyo.vim'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -67,6 +68,9 @@ vmap <Leader>a: :Tabularize /:\zs<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Search while typing
 set incsearch
+
+" Open folded lines when searching
+set foldopen
 
 " Toggle highlight search results
 nnoremap <Leader>h :set hlsearch!<CR>
@@ -122,6 +126,11 @@ set laststatus=2
 " Open NERDTree in all tabs
 nnoremap <Leader>n :NERDTreeTabsToggle<CR>
 
+" -> goyo.vim
+" adjust magrins
+let g:goyo_width = 80
+let g:goyo_margin_top = 0
+let g:goyo_margin_bottom = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Navigation and window management
