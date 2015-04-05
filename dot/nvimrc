@@ -17,6 +17,8 @@ call vundle#begin()
   Plugin 'mintplant/vim-literate-coffeescript'
   Plugin 'bling/vim-airline'
   Plugin 'junegunn/goyo.vim'
+  Plugin 'mxw/vim-jsx'
+  Plugin 'jaxbot/syntastic-react'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,7 +72,7 @@ vmap <Leader>a: :Tabularize /:\zs<CR>
 set incsearch
 
 " Open folded lines when searching
-set foldopen
+"set foldopen
 
 " Toggle highlight search results
 nnoremap <Leader>h :set hlsearch!<CR>
@@ -131,6 +133,10 @@ nnoremap <Leader>n :NERDTreeTabsToggle<CR>
 let g:goyo_width = 80
 let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
+
+" -> Syntastic / jsx-vim
+" use jsxhint
+let g:syntastic_javascript_checkers = ['eslint']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Navigation and window management
