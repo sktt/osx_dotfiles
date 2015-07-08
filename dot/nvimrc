@@ -1,24 +1,33 @@
 set rtp+=~/.nvim/bundle/Vundle.vim
 call vundle#begin()
   Plugin 'gmarik/Vundle.vim'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'kien/ctrlp.vim'
+  Plugin 'junegunn/goyo.vim'
+  Plugin 'mattn/webapi-vim'
+  Plugin 'mattn/gist-vim'
+  " Formating and editing
+  Plugin 'tpope/vim-surround'
+  Plugin 'scrooloose/nerdcommenter'
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'godlygeek/tabular'
+  Plugin 'editorconfig/editorconfig-vim' 
+  Plugin 'Raimondi/delimitMate'
+  " Linting
+  Plugin 'scrooloose/syntastic'
+  Plugin 'jaxbot/syntastic-react'
+  " UI Plugins
+  Plugin 'bling/vim-airline'
+  Plugin 'altercation/vim-colors-solarized'
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
-  Plugin 'altercation/vim-colors-solarized'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'godlygeek/tabular'
-  Plugin 'tpope/vim-surround'
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'scrooloose/syntastic'
-  Plugin 'scrooloose/nerdcommenter'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'kien/ctrlp.vim'
-  Plugin 'Raimondi/delimitMate'
-  Plugin 'editorconfig/editorconfig-vim' 
+  " Syntax highlighting
   Plugin 'mintplant/vim-literate-coffeescript'
-  Plugin 'bling/vim-airline'
-  Plugin 'junegunn/goyo.vim'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'kchmck/vim-coffee-script'
   Plugin 'mxw/vim-jsx'
-  Plugin 'jaxbot/syntastic-react'
+  Plugin 'mtscout6/vim-cjsx'
+  "Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -50,7 +59,7 @@ let mapleader = " "
 " => Editing text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backspace removes everything on the line. But stops at eol
-set backspace=indent,start
+set backspace=eol,indent,start
 
 " Linebreak on 120 characters
 set lbr
@@ -58,6 +67,11 @@ set tw=120
 
 " Default indention style
 set ts=2 sts=2 sw=2 expandtab
+
+" Makefiles need tabs
+autocmd FileType make setlocal noexpandtab
+
+
 
 " Tabularize macros
 nmap <Leader>a= :Tabularize /=<CR>
@@ -80,7 +94,9 @@ nnoremap <Leader>h :set hlsearch!<CR>
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
+set t_Co=16
 " Use solarized theme
+let g:solarized_termcolors=16
 set background=dark
 colorscheme solarized
 
@@ -103,9 +119,13 @@ set tm=500
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" -> indentLine
+"let g:indentLine_char = '¦'
+"let g:indentLine_color_term = 234
+
 " -> ctrlp.vim
 " Set ignore patterns
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\'
 
 " Use command-t mapping
 let g:ctrlp_map = '<Leader>t' 
@@ -135,8 +155,15 @@ let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
 
 " -> Syntastic / jsx-vim
-" use jsxhint
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_coffee_checkers = ['coffeelint']
+let g:syntastic_scss_checkers = ['scss_lint']
+
+" -> vim-gist
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_post_private = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Navigation and window management
@@ -191,8 +218,8 @@ map Q <Nop>
 " Reload vim config on save
 autocmd! bufwritepost $MYVIMRC source %
 
-" Save as root
-command! W execute ':silent w !sudo tee % > /dev/null' | edit! %
+" Save as root. crashes neovim
+"command! W execute ':silent w !sudo tee % > /dev/null' | edit! %
 
 " Treat :Q as :q
 command! Q q

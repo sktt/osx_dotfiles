@@ -3,3 +3,7 @@
 	email = johannes.wikner@gmail.com
 [push]
 	default = matching
+[core]
+	editor = nvim
+[github]
+	user = sktt
