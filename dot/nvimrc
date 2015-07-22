@@ -13,6 +13,7 @@ call vundle#begin()
   Plugin 'godlygeek/tabular'
   Plugin 'editorconfig/editorconfig-vim' 
   Plugin 'Raimondi/delimitMate'
+  Plugin 'mattn/emmet-vim'
   " Linting
   Plugin 'scrooloose/syntastic'
   Plugin 'jaxbot/syntastic-react'
@@ -27,7 +28,9 @@ call vundle#begin()
   Plugin 'kchmck/vim-coffee-script'
   Plugin 'mxw/vim-jsx'
   Plugin 'mtscout6/vim-cjsx'
+  Plugin 'digitaltoad/vim-jade'
   "Plugin 'Yggdroot/indentLine'
+  Plugin 'fatih/vim-go'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -94,11 +97,15 @@ nnoremap <Leader>h :set hlsearch!<CR>
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
-set t_Co=16
+set t_Co=256
+set t_AB=^[[48;5;%dm
+set t_AF=^[[38;5;%dm
 " Use solarized theme
-let g:solarized_termcolors=16
-set background=dark
+"let g:solarized_termcolors=16
 colorscheme solarized
+set background=dark
+"
+"colorscheme wombat256
 
 " show row numbers
 set number
@@ -108,6 +115,11 @@ set nowrap
 
 " Use syntax highlighting
 syntax on
+
+" Show guide lines
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+set cursorline cursorcolumn
 
 " No annoying sound on errors
 set noerrorbells
