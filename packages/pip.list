@@ -1,0 +1,9 @@
+futures
+greenlet
+msgpack-python
+neovim
+pip
+protobuf
+setuptools
+trollius
+wheel

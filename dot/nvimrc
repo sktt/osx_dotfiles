@@ -1,5 +1,5 @@
 set rtp+=~/.nvim/bundle/Vundle.vim
-call vundle#begin()
+call vundle#begin('~/.nvim/bundle')
   Plugin 'gmarik/Vundle.vim'
   Plugin 'tpope/vim-fugitive'
   Plugin 'kien/ctrlp.vim'
@@ -20,10 +20,10 @@ call vundle#begin()
   " UI Plugins
   Plugin 'bling/vim-airline'
   Plugin 'altercation/vim-colors-solarized'
+  Plugin 'chriskempson/base16-vim'
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
   " Syntax highlighting
-  Plugin 'mintplant/vim-literate-coffeescript'
   Plugin 'pangloss/vim-javascript'
   Plugin 'kchmck/vim-coffee-script'
   Plugin 'mxw/vim-jsx'
@@ -100,12 +100,9 @@ set so=7
 set t_Co=256
 set t_AB=^[[48;5;%dm
 set t_AF=^[[38;5;%dm
-" Use solarized theme
-"let g:solarized_termcolors=16
-colorscheme solarized
 set background=dark
-"
-"colorscheme wombat256
+
+silent! colorscheme base16-tomorrow
 
 " show row numbers
 set number
