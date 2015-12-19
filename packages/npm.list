@@ -1,2 +1,7 @@
+babel-eslint
 eslint
+eslint-plugin-react
+gulp
 npm
+webpack
+webpack-dev-server
