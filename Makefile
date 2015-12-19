@@ -8,6 +8,9 @@ symlinks:
 
 fonts:
 	curl -L https://github.com/powerline/fonts/raw/master/SourceCodePro/Sauce%20Code%20Powerline%20Regular.otf -o ~/Library/Fonts/Sauce\ Code\ Powerline\ Regular.otf
+	curl -LO https://fontlibrary.org/assets/downloads/fantasque-sans-mono/db52617ba875d08cbd8e080ca3d9f756/fantasque-sans-mono.zip
+	unzip fantasque-sans-mono.zip -d ~/Library/Fonts/ *.ttf
+	rm fantasque-sans-mono.zip
 
 .PHONY: hosts
 hosts:
