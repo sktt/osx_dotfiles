@@ -2,7 +2,7 @@ set rtp+=~/.nvim/bundle/Vundle.vim
 call vundle#begin('~/.nvim/bundle')
   Plugin 'gmarik/Vundle.vim'
   Plugin 'tpope/vim-fugitive'
-  Plugin 'kien/ctrlp.vim'
+  Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'junegunn/goyo.vim'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
@@ -44,6 +44,7 @@ filetype plugin indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
+autocmd FocusGained,BufEnter * silent! checktime
 
 " Dont put temp junk in the file directory
 set backupdir=~/.nvim/backup,~/.nvim/tmp
@@ -61,7 +62,7 @@ let mapleader = " "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Backspace removes everything on the line. But stops at eol
+" Backspace removes everything on the line. 
 set backspace=eol,indent,start
 
 " Linebreak on 120 characters
@@ -73,8 +74,6 @@ set ts=2 sts=2 sw=2 expandtab
 
 " Makefiles need tabs
 autocmd FileType make setlocal noexpandtab
-
-
 
 " Tabularize macros
 nmap <Leader>a= :Tabularize /=<CR>
@@ -114,8 +113,8 @@ set nowrap
 syntax on
 
 " Show guide lines
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline cursorcolumn
+autocmd WinLeave * set nocursorline nocursorcolumn
+autocmd WinEnter * set cursorline cursorcolumn
 set cursorline cursorcolumn
 
 " No annoying sound on errors
