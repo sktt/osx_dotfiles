@@ -1,4 +1,4 @@
-# symlink DOTFILES to home dir, substitute "dot/" with "."
+.PHONY: symlinks
 symlinks: DOTFILES := $(wildcard dot/*)
 symlinks:
 	@for f in $(DOTFILES); do \
@@ -6,6 +6,7 @@ symlinks:
 	done;
 	@ls -lG `find ~ -maxdepth 1 -type l -print` 
 
+.PHONY: fonts
 fonts:
 	curl -L https://github.com/powerline/fonts/raw/master/SourceCodePro/Sauce%20Code%20Powerline%20Regular.otf -o ~/Library/Fonts/Sauce\ Code\ Powerline\ Regular.otf
 	curl -LO https://fontlibrary.org/assets/downloads/fantasque-sans-mono/db52617ba875d08cbd8e080ca3d9f756/fantasque-sans-mono.zip
@@ -26,24 +27,31 @@ packages:
 	brew install $(BREWS)
 	brew cask install $(CASKS)
 
+.PHONY: lists
 lists:
-	npm ls -g --depth=0 | awk '/@/ {print $$2}' | awk -F@ '{print $$1}' > ./packages/npm.list
+	npm ls -g --depth=0 | awk -F[@\ ] '/@/ {print $$2}' > ./packages/npm.list
 	pip list | awk -F\  '{print $$1}' > ./packages/pip.list
 	gem list | awk -F\  '{print $$1}' > ./packages/gem.list
 	cp /etc/hosts ./hosts
 	brew list > ./packages/brew.list
 	brew cask list > ./packages/cask.list
+	ls -d ~/.cabal/packages/hackage.haskell.org/*/ | \
+		cut -f7 -d'/' > ./packages/cabal.list
 
+
+.PHONY: nvim
 nvim: python 
 	git clone git@github.com:VundleVim/Vundle.vim.git ~/.nvim/bundle/Vundle.vim
 	nvim -u ~/.nvimrc -c PluginInstall
 
+.PHONY: packages
 python: packages
 python: PKG_LIST := $(shell cat ./packages/pip.list)
 python:
 	@which pip > /dev/null
 	pip install $(PKG_LIST)
 
+.PHONY: node
 node: packages
 node: PKG_LIST := $(shell cat ./packages/npm.list)
 node: NVM := /usr/local/opt/nvm/nvm.sh
@@ -53,6 +61,7 @@ node:
 	$(NVM) alias default stable
 	npm install -g $(PKG_LIST)
 
+.PHONY: ruby
 ruby: packages
 ruby: LATEST_STABLE := $(shell rbenv install -l | grep -v - | tail -1)
 ruby: PKG_LIST := $(shell cat ./packages/gem.list)
@@ -62,6 +71,12 @@ ruby:
 	rbenv rehash
 	gem install $(PKG_LIST)
 
+haskell: PKG_LIST := $(shell cat ./packages/cabal.list)
+haskell:
+	cabal install $(PKG_LIST)
+	hoogle data
+
+.PHONY: shell
 shell: packages
 shell:
 	@which git > /dev/null
@@ -69,4 +84,6 @@ shell:
 	git clone --depth=1 git@github.com:robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 	chsh -s `which zsh`
 
+.PHONY: all
+.DEFAULT: all
 all: symlinks fonts hosts packages shell ruby node python nvim
