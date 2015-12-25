@@ -2,8 +2,11 @@ autoconf
 autojump
 automake
 boost
+cabal-install
 cmake
 freetype
+gawk
+gdb
 gdbm
 gettext
 ghc
@@ -29,4 +32,6 @@ ruby-build
 sqlite
 unixodbc
 vim
+wget
+xz
 zsh
