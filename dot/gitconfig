@@ -4,6 +4,6 @@
 [push]
 	default = matching
 [core]
-	editor = nvim
+	editor = nvim -u ~/.nvimrc
 [github]
 	user = sktt
