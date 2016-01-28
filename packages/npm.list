@@ -1,7 +1,15 @@
 babel-eslint
+bower
+esformatter
+esformatter-semicolons
 eslint
 eslint-plugin-react
+grunt-cli
 gulp
+jshint
+jsonlint
+markdown-pdf
 npm
+standard
 webpack
 webpack-dev-server

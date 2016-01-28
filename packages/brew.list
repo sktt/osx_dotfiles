@@ -12,9 +12,11 @@ gettext
 ghc
 git
 icu4c
+imagemagick
 jpeg
 libevent
 libpng
+libtiff
 libtool
 mobile-shell
 mysql
@@ -31,6 +33,7 @@ readline
 ruby-build
 sqlite
 unixodbc
+unrar
 vim
 wget
 xz
