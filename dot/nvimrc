@@ -8,10 +8,12 @@ call vundle#begin('~/.nvim/bundle')
   Plugin 'mattn/gist-vim'
   " Formating and editing
   Plugin 'tpope/vim-surround'
+  Plugin 'tpope/vim-repeat'
   Plugin 'scrooloose/nerdcommenter'
   Plugin 'Valloric/YouCompleteMe'
   Plugin 'godlygeek/tabular'
-  Plugin 'editorconfig/editorconfig-vim' 
+  Plugin 'editorconfig/editorconfig-vim'
+  Plugin 'millermedeiros/vim-esformatter'
   Plugin 'Raimondi/delimitMate'
   Plugin 'mattn/emmet-vim'
   " Linting
@@ -29,6 +31,8 @@ call vundle#begin('~/.nvim/bundle')
   Plugin 'mxw/vim-jsx'
   Plugin 'mtscout6/vim-cjsx'
   Plugin 'digitaltoad/vim-jade'
+  Plugin 'neovimhaskell/haskell-vim'
+  Plugin 'enomsg/vim-haskellConcealPlus'
   "Plugin 'Yggdroot/indentLine'
   Plugin 'fatih/vim-go'
 call vundle#end()
@@ -62,7 +66,7 @@ let mapleader = " "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Backspace removes everything on the line. 
+" Backspace removes everything on the line.
 set backspace=eol,indent,start
 
 " Linebreak on 120 characters
@@ -136,18 +140,18 @@ set tm=500
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\'
 
 " Use command-t mapping
-let g:ctrlp_map = '<Leader>t' 
+let g:ctrlp_map = '<Leader>t'
 
 " -> vim-coffe-script
 " Treat litcoffee as coffee
 autocmd FileType litcoffee runtime ftplugin/coffee.vim
 
-" -> vim-airline 
+" -> vim-airline
 " Enable tab bar
 let g:airline#extensions#tabline#enabled = 1
 
 " Enable powerline fonts
-let g:airline_powerline_fonts = 1 
+let g:airline_powerline_fonts = 1
 
 " Show status bar
 set laststatus=2
@@ -189,7 +193,7 @@ nnoremap <c-k> <c-W>k
 nnoremap <c-h> <c-W>h
 nnoremap <c-l> <c-W>l
 
-" neovim ^H fix. 
+" neovim ^H fix.
 " https://github.com/neovim/neovim/issues/2048
 if has('nvim')
   nmap <BS> <C-W>h
