@@ -1,16 +1,17 @@
 set rtp+=~/.nvim/bundle/Vundle.vim
 call vundle#begin('~/.nvim/bundle')
   Plugin 'gmarik/Vundle.vim'
+  Plugin 'Valloric/YouCompleteMe'
   Plugin 'tpope/vim-fugitive'
   Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'junegunn/goyo.vim'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
+  Plugin 'mileszs/ack.vim'
   " Formating and editing
   Plugin 'tpope/vim-surround'
   Plugin 'tpope/vim-repeat'
   Plugin 'scrooloose/nerdcommenter'
-  Plugin 'Valloric/YouCompleteMe'
   Plugin 'godlygeek/tabular'
   Plugin 'editorconfig/editorconfig-vim'
   Plugin 'millermedeiros/vim-esformatter'
@@ -19,24 +20,29 @@ call vundle#begin('~/.nvim/bundle')
   " Linting
   Plugin 'scrooloose/syntastic'
   Plugin 'jaxbot/syntastic-react'
+  "Plugin 'flowtype/vim-flow'
   " UI Plugins
-  Plugin 'bling/vim-airline'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
   Plugin 'altercation/vim-colors-solarized'
   Plugin 'chriskempson/base16-vim'
   Plugin 'scrooloose/nerdtree'
-  Plugin 'jistr/vim-nerdtree-tabs'
   " Syntax highlighting
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'mxw/vim-jsx'
-  Plugin 'mtscout6/vim-cjsx'
-  Plugin 'digitaltoad/vim-jade'
-  Plugin 'neovimhaskell/haskell-vim'
-  Plugin 'enomsg/vim-haskellConcealPlus'
+  Plugin 'sheerun/vim-polyglot'
+  Plugin 'ElmCast/elm-vim'
+  Plugin 'wakatime/vim-wakatime'
+  "Plugin 'pangloss/vim-javascript'
+  "Plugin 'mxw/vim-jsx'
   "Plugin 'Yggdroot/indentLine'
-  Plugin 'fatih/vim-go'
+  "
+  Plugin 'bitc/vim-hdevtools'
 call vundle#end()
 
+let g:ycm_semantic_triggers = {
+     \ 'elm' : ['.'],
+     \}
+let g:polyglot_disabled = ['elm']
+autocmd BufWinEnter quickfix set nowrap!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -63,20 +69,29 @@ set timeoutlen=400
 set ttimeoutlen=400
 let mapleader = " "
 
+set relativenumber
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backspace removes everything on the line.
 set backspace=eol,indent,start
 
-" Linebreak on 120 characters
+" Linebreak on 80 characters
 set lbr
-set tw=120
+set textwidth=80
+
+" format paragraph
+nnoremap <Leader>q gqap
 
 " Default indention style
-set ts=2 sts=2 sw=2 expandtab
+set tabstop=4
+set softtabstop=2
+set shiftwidth=2
+set expandtab "tab -> spaces. `C-V <Tab>` for normal tab
+set shiftround "Round indent to nearest shiftwidth multiple
 
-" Makefiles need tabs
+" Makefiles need tabs though
 autocmd FileType make setlocal noexpandtab
 
 " Tabularize macros
@@ -100,13 +115,15 @@ nnoremap <Leader>h :set hlsearch!<CR>
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
-set t_Co=256
 set t_AB=^[[48;5;%dm
 set t_AF=^[[38;5;%dm
-set background=dark
 
+set t_Co=256
+let base16colorspace=256  " Access colors present in 256 colorspace
+set background=dark
 silent! colorscheme base16-tomorrow
 
+hi Normal ctermbg=none
 " show row numbers
 set number
 
@@ -156,9 +173,9 @@ let g:airline_powerline_fonts = 1
 " Show status bar
 set laststatus=2
 
-" -> NERDTree / NERDTreeTabs
-" Open NERDTree in all tabs
-nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+" -> NERDTree
+" Open NERDTree
+nnoremap <Leader>n :NERDTreeToggle<CR>
 
 " -> goyo.vim
 " adjust magrins
@@ -166,16 +183,25 @@ let g:goyo_width = 80
 let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
 
-" -> Syntastic / jsx-vim
-let g:syntastic_aggregate_errors = 1
+" -> Syntastic
+let g:syntastic_aggregate_errors = 0
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_standard_exec = 'standard'
+let g:syntastic_javascript_standard_generic = 1
 let g:syntastic_coffee_checkers = ['coffeelint']
-let g:syntastic_scss_checkers = ['scss_lint']
+let g:syntastic_scss_checkers = ['sass_lint']
+let g:syntastic_always_populate_loc_list = 1
+
 
 " -> vim-gist
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
+
+
+" -> vim-hdevtools
+autocmd FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+autocmd FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Navigation and window management
@@ -192,12 +218,6 @@ nnoremap <c-j> <c-W>j
 nnoremap <c-k> <c-W>k
 nnoremap <c-h> <c-W>h
 nnoremap <c-l> <c-W>l
-
-" neovim ^H fix.
-" https://github.com/neovim/neovim/issues/2048
-if has('nvim')
-  nmap <BS> <C-W>h
-endif
 
 " Open new tab
 map <leader>ot :tabnew<cr>
@@ -217,9 +237,17 @@ set viminfo^=%
 " Open vimgrep and put the cursor in the right position
 map <leader>g :vimgrep // **<left><left><left><left>
 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+
 " Next/prev result
 nnoremap ]q :cnext<cr>
 nnoremap [q :cprevious<cr>
+
+" Autoclose preview scratch
+autocmd CompleteDone * pclose
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc, marcros etc
@@ -235,6 +263,9 @@ autocmd! bufwritepost $MYVIMRC source %
 
 " Treat :Q as :q
 command! Q q
+
+" Run in nodejs
+command! R !node % <f_args>
 
 " Quickly open config file
 nmap <leader>v :tabedit $MYVIMRC<CR>

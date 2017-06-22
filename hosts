@@ -7,4 +7,7 @@
 127.0.0.1	localhost
 255.255.255.255	broadcasthost
 ::1             localhost 
-95.85.4.94 yesbox
+95.85.4.94	yesbox
+127.0.0.1	asdf
+217.182.73.65	boombox
+217.182.95.16	cloudbox
